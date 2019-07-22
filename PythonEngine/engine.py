@@ -1,23 +1,20 @@
 #!/usr/bin/python3
 
 
+# 引擎脚本,用于调用不同扫描模块或者直接调用正则处理漏洞文件
 class Engine:
-    __keygen = "nesum lite scan"
-
     def __init__(self):
         module_sql = __import__("lib.mysql")
         self.MySql = module_sql.mysql.MySql
 
-        module_crypt = __import__("lib.key_crypt")
-        self.Crypt = module_crypt.key_crypt.Crypt
+        module_crypt = __import__("lib.rsa_crypt")
+        self.Rsa = module_crypt.rsa_crypt.Rsa()
 
     def crypt_file(self, filepath, output):
-        keygen = self.Crypt.gen_key_by_str(self.__keygen)
-        self.Crypt.crypt_save_file(filepath, output, keygen)
+        self.Rsa.enc_file(filepath, output)
 
     def decrypt_file(self, filepath):
-        keygen = self.Crypt.gen_key_by_str(self.__keygen)
-        return self.Crypt.get_crypt_file_byte(filepath, keygen)
+        return self.Rsa.dec_str(filepath)
 
     def test_sql(self):
         mysql = self.MySql("127.0.0.1", 3306, "root", "1234", "python-sql")
@@ -40,6 +37,7 @@ class Engine:
 
 if __name__ == "__main__":
     engine = Engine()
-    engine.run_module("load_test")
-    engine.run_module("module1")
-    engine.run_module("module2")
+    engine.crypt_file("../DynamicLoad/load_test.py", "./lib/load_test")
+    # engine.run_module("load_test")
+    # engine.run_module("module1")
+    # engine.run_module("module2")
