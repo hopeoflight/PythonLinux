@@ -115,7 +115,8 @@ if __name__ == "__main__":
     # print(Engine.get_content(vul_id="test1"))
     # Engine.save_vul_file("vulnerable")
 
-    parser = argparse.ArgumentParser(usage="usage tip.", description="help info.")
+    parser = argparse.ArgumentParser(usage="python3 engine.py [TYPE OPTION] [OPTION]...",
+                                     description="run engine must input [TYPE OPTION].")
     parser.add_argument("-t",
                         required=True,
                         choices=['module', 'append', 'append_file', 'index', 'id', 'type', 'content'],
